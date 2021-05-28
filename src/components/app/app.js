@@ -35,8 +35,7 @@ export default class App extends Component {
 
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
-        this.onToggleImportant = this.onToggleImportant.bind(this);
-        this.onToggleLiked = this.onToggleLiked.bind(this);
+        this.onToggleProperty = this.onToggleProperty.bind(this);
         this.maxId = 4;
 
     }
@@ -67,32 +66,22 @@ export default class App extends Component {
         }) 
     }
 
-    onToggleImportant(id) {
+    onToggleProperty(id, propertyName) {
 
         this.setState(({data}) => {
             const index = data.findIndex((element) => element.id === id);
             const old = data[index];
+
             const newItem = {
                 ...old,
-                important: !old.important
             };
 
-            const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
-            return {
-                data: newArr
+            if(propertyName === 'important') {
+                newItem['important'] = !old[propertyName];
             }
-        });
-    }
-    
-    onToggleLiked(id) {
-
-        this.setState(({data}) => {
-            const index = data.findIndex((element) => element.id === id);
-            const old = data[index];
-            const newItem = {
-                ...old,
-                like: !old.like
-            };
+            else if(propertyName === 'like'){
+                newItem['like'] = !old[propertyName];
+            }
 
             const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
             return {
@@ -117,11 +106,11 @@ export default class App extends Component {
                     </div> 
                     <PostList posts={this.state.data}
                               onDelete={this.deleteItem}
-                              onToggleImportant={this.onToggleImportant}
-                              onToggleLiked={this.onToggleLiked}/>
+                              onToggleImportant={this.onToggleProperty}
+                              onToggleLiked={this.onToggleProperty}/>
                     <PostAddForm onAdd={this.addItem}/>
                 </div>    
-                 )
+             )
     }
 };
 
