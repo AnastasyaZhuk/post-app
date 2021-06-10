@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './item.css'
 
-
 export default class Item extends Component {
 
     render() {
